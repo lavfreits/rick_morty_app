@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/data_fetch.dart';
 import '../../models/model.dart';
+import '../character/character.dart';
 import 'widgets/character_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,6 +70,14 @@ class _HomePageState extends State<HomePage> {
                   final character = characters[index];
                   return CharacterTile(
                     character: character,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CharacterInfo(),
+                          settings: RouteSettings(arguments: character),
+                        ),
+                      );
+                    },
                   );
                 }),
           ),
