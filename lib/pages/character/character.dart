@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled/pages/home/home_page.dart';
 import '../../data/data_fetch.dart';
 import '../../models/model.dart';
+import 'widgets/character_information_tile.dart';
 
 class CharacterInfo extends StatefulWidget {
   const CharacterInfo({super.key});
@@ -24,6 +25,7 @@ class _CharacterInfoState extends State<CharacterInfo> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
+          elevation: 2,
           actions: <Widget>[
             IconButton(
               onPressed: () {},
@@ -43,182 +45,77 @@ class _CharacterInfoState extends State<CharacterInfo> {
           leadingWidth: 90,
           toolbarHeight: 60,
         ),
-        body: Padding(
+        body: ListView(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: [
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(
-                      builder: (context) => HomePage()));
-                },
-                child: const Row(
-                  children: [
-                    Icon(Icons.arrow_back),
-                    Text(
-                      '  GO BACK',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontFamily: 'Karla',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+          children: [
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black),
               ),
-              Container(
-                width: 146,
-                height: 148,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage(character!.image),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                    builder: (context) => HomePage()));
+              },
+              child: const Row(
+                children: [
+                  Icon(Icons.arrow_back),
+                  Text(
+                    '  GO BACK',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
+                ],
+              ),
+            ),
+            Container(
+              width: 146,
+              height: 148,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(character!.image),
                 ),
               ),
-              Text(
-                character!.name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF081F32),
-                  fontSize: 32,
-                  fontWeight: FontWeight.w400,
+            ),
+            Text(
+              character!.name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF081F32),
+                fontSize: 32,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 25, left: 15),
+              child: Text(
+                'Informations',
+                style: TextStyle(
+                  color: Color(0xFF8E8E93),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.15,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 25, left: 10),
-                child: Text(
-                  'Informations',
-                  style: TextStyle(
-                    color: Color(0xFF8E8E93),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.15,
-                  ),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: Column(
+                children: [
+                  CharacterInfoTile(title: 'Gender', value: character!.gender),
+                  CharacterInfoTile(title: 'Status', value: character!.status),
+                  CharacterInfoTile(title: 'Specie', value: character!.species),
+                  CharacterInfoTile(title: 'Origin', value: character!.origin.name),
+                  CharacterInfoTile(title: 'Location', value: character!.location.name),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Gender',
-                      style: TextStyle(
-                        color: Color(0xFF081F32),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.15,
-                      ),
-                    ),
-                    Text(
-                      character!.gender,
-                      style: const TextStyle(
-                        color: Color(0xFF6E798C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Status',
-                      style: TextStyle(
-                        color: Color(0xFF081F32),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.15,
-                      ),
-                    ),
-                    Text(
-                      character!.status,
-                      style: const TextStyle(
-                        color: Color(0xFF6E798C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Specie',
-                      style: TextStyle(
-                        color: Color(0xFF081F32),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.15,
-                      ),
-                    ),
-                    Text(
-                      character!.species,
-                      style: const TextStyle(
-                        color: Color(0xFF6E798C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Origin',
-                      style: TextStyle(
-                        color: Color(0xFF081F32),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.15,
-                      ),
-                    ),
-                    Text(
-                      character!.origin.name,
-                      style: const TextStyle(
-                        color: Color(0xFF6E798C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                    const Text(
-                      'Location',
-                      style: TextStyle(
-                        color: Color(0xFF081F32),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.15,
-                      ),
-                    ),
-                    Text(
-                      character!.location.name,
-                      style: const TextStyle(
-                        color: Color(0xFF6E798C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 }
