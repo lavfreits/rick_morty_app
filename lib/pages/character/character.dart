@@ -50,13 +50,10 @@ class _CharacterInfoState extends State<CharacterInfo> {
           children: [
             TextButton(
               style: ButtonStyle(
-                foregroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
               ),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(
-                    builder: (context) => HomePage()));
+                Navigator.of(context).pop();
               },
               child: const Row(
                 children: [
@@ -110,8 +107,16 @@ class _CharacterInfoState extends State<CharacterInfo> {
                   CharacterInfoTile(title: 'Gender', value: character!.gender),
                   CharacterInfoTile(title: 'Status', value: character!.status),
                   CharacterInfoTile(title: 'Specie', value: character!.species),
-                  CharacterInfoTile(title: 'Origin', value: character!.origin.name),
-                  CharacterInfoTile(title: 'Location', value: character!.location.name),
+                  CharacterInfoTile(
+                      title: 'Origin', value: character!.origin.name),
+                  CharacterInfoTile(
+                      title: 'Location',
+                      value: character!.location.name,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      }),
                 ],
               ),
             ),
