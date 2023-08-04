@@ -25,8 +25,8 @@ class CharacterModel {
   final String status;
   final String species;
   final String gender;
-  final LocationModel origin;
-  final LocationModel location;
+  final Location origin;
+  final Location location;
   final String image;
   final String url;
 
@@ -37,17 +37,17 @@ class CharacterModel {
     status = json["status"],
     species = json["species"],
     gender = json["gender"],
-    origin = LocationModel.fromMap(json["origin"]),
-    location = LocationModel.fromMap(json["location"]),
+    origin = Location.fromMap(json["origin"]),
+    location = Location.fromMap(json["location"]),
     image = json["image"],
     url = json["url"];
   }
 
-class LocationModel {
+class Location {
   final String name;
   final String url;
 
-   LocationModel.fromMap(Map<String, dynamic> json):
+   Location.fromMap(Map<String, dynamic> json):
     name = json["name"],
     url = json["url"];
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/model.dart';
+import '../../../models/character_model.dart';
 
 class CharacterTile extends StatelessWidget {
   const CharacterTile({super.key, required this.character, this.onTap});

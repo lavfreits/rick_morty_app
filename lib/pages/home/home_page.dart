@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../data/data_fetch.dart';
-import '../../models/model.dart';
+import '../../data/data_fetch_characters.dart';
+import '../../models/character_model.dart';
 import '../character/character.dart';
 import 'widgets/character_tile.dart';
 
@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    requestApi();
+    requestApiCharacters();
     super.initState();
   }
 
@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void requestApi() async {
-    characters = await fetchData();
+  void requestApiCharacters() async {
+    characters = await fetchDataCharacters();
     setState(() {});
   }
 }

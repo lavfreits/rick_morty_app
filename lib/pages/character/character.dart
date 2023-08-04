@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/pages/home/home_page.dart';
-import '../../data/data_fetch.dart';
-import '../../models/model.dart';
+import '../../models/character_model.dart';
+import '../location/location_page.dart';
 import 'widgets/character_information_tile.dart';
 
 class CharacterInfo extends StatefulWidget {
@@ -107,14 +106,16 @@ class _CharacterInfoState extends State<CharacterInfo> {
                   CharacterInfoTile(title: 'Gender', value: character!.gender),
                   CharacterInfoTile(title: 'Status', value: character!.status),
                   CharacterInfoTile(title: 'Specie', value: character!.species),
-                  CharacterInfoTile(
-                      title: 'Origin', value: character!.origin.name),
+                  CharacterInfoTile(title: 'Origin', value: character!.origin.name),
                   CharacterInfoTile(
                       title: 'Location',
                       value: character!.location.name,
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                LocationPage(page: character!.location.url),
+                          ),
                         );
                       }),
                 ],

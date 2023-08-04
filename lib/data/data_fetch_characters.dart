@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/model.dart';
+import '../models/character_model.dart';
 
-Future<List<CharacterModel>> fetchData() async {
+Future<List<CharacterModel>> fetchDataCharacters() async {
   final url = Uri.parse('https://rickandmortyapi.com/api/character');
   final response = await http.get(url);
 
