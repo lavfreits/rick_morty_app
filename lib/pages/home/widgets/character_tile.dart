@@ -59,7 +59,6 @@ class CharacterTile extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.6),
                         fontSize: 14 * ratio,
-                        fontFamily: 'Roboto',
                         fontWeight: FontWeight.w400,
                         height: 21 / 14 * ratio,
                         letterSpacing: 0.25,

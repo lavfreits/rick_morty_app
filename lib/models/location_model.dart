@@ -11,6 +11,6 @@ class LocationModel {
         name = json["name"],
         type = json["type"],
         dimension = json["dimension"],
-        residents = List<String>.from(json["residents"].map((x) => x)),
+        residents = List<String>.from(json["residents"].map((x) => x.replaceAll("https://rickandmortyapi.com/api/character/", ""))),
         created = DateTime.parse(json["created"]);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/pages/widgets/text_title.dart';
 import '../../models/character_model.dart';
 import '../location/location_page.dart';
 import 'widgets/character_information_tile.dart';
@@ -87,18 +88,7 @@ class _CharacterInfoState extends State<CharacterInfo> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 25, left: 15),
-              child: Text(
-                'Informations',
-                style: TextStyle(
-                  color: Color(0xFF8E8E93),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.15,
-                ),
-              ),
-            ),
+            const TextTitle(text: 'Informations'),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Column(

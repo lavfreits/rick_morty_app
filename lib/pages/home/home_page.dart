@@ -13,11 +13,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<CharacterModel> characters = [];
+  final scrollController = ScrollController();
+  bool isLoading = false;
+  int page = 1;
 
   @override
   void initState() {
     requestApiCharacters();
     super.initState();
+    scrollController.addListener(scrollListener);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollListener() {
+    if (scrollController.offset >=
+        scrollController.position.maxScrollExtent -
+            scrollController.position.viewportDimension) {
+      requestApiCharacters();
+    }
   }
 
   @override
@@ -65,6 +83,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
+                controller: scrollController,
                 itemCount: characters.length,
                 itemBuilder: (context, index) {
                   final character = characters[index];
@@ -87,7 +106,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void requestApiCharacters() async {
-    characters = await fetchDataCharacters();
+    if (isLoading) return;
+    isLoading = true;
+    final newCharacters = await fetchDataCharacters(page);
+    page++;
+    characters.addAll(newCharacters);
+    isLoading = false;
     setState(() {});
   }
 }
