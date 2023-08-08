@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/character_model.dart';
 
-Future<List<CharacterModel>> fetchDataCharacters(int page) async {
+Future<(int,List<CharacterModel>)> fetchDataCharacters(int page) async {
   final url = Uri.parse('https://rickandmortyapi.com/api/character?page=$page');
   final response = await http.get(url);
 
@@ -11,5 +11,6 @@ Future<List<CharacterModel>> fetchDataCharacters(int page) async {
   for(Map<String, dynamic> json in jsonData['results']! as List){
     characters.add(CharacterModel.fromMap(json));
   }
-  return characters;
+  final pagesCount = jsonData['info']['pages'] as int;
+  return (pagesCount, characters);
 }

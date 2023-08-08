@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/pages/home/home_controller.dart';
 import '../../data/data_fetch_characters.dart';
 import '../../models/character_model.dart';
 import '../character/character.dart';
@@ -12,14 +13,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<CharacterModel> characters = [];
   final scrollController = ScrollController();
-  bool isLoading = false;
-  int page = 1;
+  final pageController = HomeController();
 
   @override
   void initState() {
-    requestApiCharacters();
+    pageController.requestApiCharacters();
     super.initState();
     scrollController.addListener(scrollListener);
   }
@@ -34,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     if (scrollController.offset >=
         scrollController.position.maxScrollExtent -
             scrollController.position.viewportDimension) {
-      requestApiCharacters();
+     // pageController.requestApiCharacters();
     }
   }
 
@@ -68,7 +67,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(left: 24, top: 10, right: 24, bottom: 24),
+            const EdgeInsets.only(left: 24, top: 10, right: 24, bottom: 24),
             //alterei o padding top p rick e morty n ficar em baixo da appbar
             child: Container(
               height: 104,
@@ -82,36 +81,43 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-                controller: scrollController,
-                itemCount: characters.length,
-                itemBuilder: (context, index) {
-                  final character = characters[index];
-                  return CharacterTile(
-                    character: character,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CharacterInfo(),
-                          settings: RouteSettings(arguments: character),
+            child: ListenableBuilder(
+              listenable: pageController,
+              builder: (_,__) {
+                return ListView.builder(
+                  controller: scrollController,
+                  itemCount: pageController.characters.length + (pageController.isLoading ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == pageController.characters.length){
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24.0),
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+                            //color: Colors.blue,
+                          ),
                         ),
                       );
-                    },
-                  );
-                }),
+                    }
+                    final character = pageController.characters[index];
+                    return CharacterTile(
+                      character: character,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CharacterInfo(),
+                            settings: RouteSettings(arguments: character),
+                          ),
+                        );
+                      },
+                    );
+                  });
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  void requestApiCharacters() async {
-    if (isLoading) return;
-    isLoading = true;
-    final newCharacters = await fetchDataCharacters(page);
-    page++;
-    characters.addAll(newCharacters);
-    isLoading = false;
-    setState(() {});
-  }
 }

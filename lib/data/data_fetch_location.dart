@@ -8,7 +8,6 @@ Future<LocationModel> fetchDataLocations(String page) async {
 
   final jsonData = json.decode(response.body);
 
- // List<LocationModel> locations = [];
 
     LocationModel location = LocationModel.fromMap(jsonData);
 

@@ -172,14 +172,9 @@ class _LocationPageState extends State<LocationPage> {
             const Padding(
               padding: EdgeInsets.all(300),
               child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
-                      //color: Colors.blue,
-                    ),
-                  ],
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+                  //color: Colors.blue,
                 ),
               ),
             ),
