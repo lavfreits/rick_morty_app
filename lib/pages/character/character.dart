@@ -3,20 +3,23 @@ import 'package:untitled/pages/widgets/text_title.dart';
 import '../../models/character_model.dart';
 import '../location/location_page.dart';
 import 'widgets/character_information_tile.dart';
+import 'character_controller.dart';
 
 class CharacterInfo extends StatefulWidget {
   const CharacterInfo({super.key});
+
 
   @override
   State<CharacterInfo> createState() => _CharacterInfoState();
 }
 
 class _CharacterInfoState extends State<CharacterInfo> {
-  CharacterModel? character;
+  final characterPageController = CharacterController();
+
 
   @override
   void didChangeDependencies() {
-    character ??= ModalRoute.of(context)!.settings.arguments! as CharacterModel;
+    characterPageController.character ??= ModalRoute.of(context)!.settings.arguments! as CharacterModel;
     super.didChangeDependencies();
   }
 
@@ -75,12 +78,12 @@ class _CharacterInfoState extends State<CharacterInfo> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: NetworkImage(character!.image),
+                  image: NetworkImage(characterPageController.character!.image),
                 ),
               ),
             ),
             Text(
-              character!.name,
+              characterPageController.character!.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF081F32),
@@ -93,18 +96,19 @@ class _CharacterInfoState extends State<CharacterInfo> {
               padding: const EdgeInsets.only(left: 30),
               child: Column(
                 children: [
-                  CharacterInfoTile(title: 'Gender', value: character!.gender),
-                  CharacterInfoTile(title: 'Status', value: character!.status),
-                  CharacterInfoTile(title: 'Specie', value: character!.species),
-                  CharacterInfoTile(title: 'Origin', value: character!.origin.name),
+                  CharacterInfoTile(title: 'Gender', value: characterPageController.character!.gender),
+                  CharacterInfoTile(title: 'Status', value: characterPageController.character!.status),
+                  CharacterInfoTile(title: 'Specie', value: characterPageController.character!.species),
+                  CharacterInfoTile(title: 'Origin', value: characterPageController.character!.origin.name),
                   CharacterInfoTile(
                       title: 'Location',
-                      value: character!.location.name,
+                      value: characterPageController.character!.location.name,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) =>
-                                LocationPage(page: character!.location.url),
+                                LocationPage(location: characterPageController.character!.location),
+
                           ),
                         );
                       }),

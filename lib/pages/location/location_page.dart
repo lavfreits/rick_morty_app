@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/data/data_fetch_location.dart';
 import 'package:untitled/pages/widgets/text_title.dart';
 
-import '../../data/data_fetch_characters.dart';
-import '../../models/character_model.dart';
-import '../../models/location_model.dart';
+import 'location_controller.dart';
 import '../character/character.dart';
 import '../home/widgets/character_tile.dart';
+import '../../models/character_model.dart';
 
 class LocationPage extends StatefulWidget {
-  const LocationPage({super.key, required this.page});
+  const LocationPage({Key? key, required this.location}) : super(key: key);
 
-  final String page;
+  final Location location;
 
   @override
   State<LocationPage> createState() => _LocationPageState();
 }
 
 class _LocationPageState extends State<LocationPage> {
-  LocationModel? location;
-  List<CharacterModel> characters = [];
-  List<String> listResidents = [];
-  List<CharacterModel> filteredCharacters = [];
+  final locationController = LocationController();
 
   @override
   void initState() {
-    getResidents();
-    requestApiLocation();
-    requestApiCharacters();
-    filtering();
     super.initState();
+    locationController.initializeData(
+        widget.location.url, widget.location.name);
   }
 
   @override
@@ -43,7 +36,7 @@ class _LocationPageState extends State<LocationPage> {
             icon: const Icon(Icons.menu),
             color: Colors.black87,
             padding: const EdgeInsets.all(18.0),
-          )
+          ),
         ],
         leading: IconButton(
           onPressed: () {},
@@ -56,8 +49,7 @@ class _LocationPageState extends State<LocationPage> {
         leadingWidth: 90,
         toolbarHeight: 60,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
+      body: Column(
         children: [
           TextButton(
             style: ButtonStyle(
@@ -80,132 +72,117 @@ class _LocationPageState extends State<LocationPage> {
               ],
             ),
           ),
-          if (location != null) ...[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, top: 15),
-              child: Text(
-                location!.name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF081F32),
-                  fontSize: 32,
-                  fontWeight: FontWeight.w400,
+          if (locationController.location != null)
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0, top: 15),
+                  child: Text(
+                    locationController.location!.name,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xFF081F32),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0, bottom: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+                Padding(
+                  padding: const EdgeInsets.only(top: 25.0, bottom: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Type',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Type',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            locationController.location!.type,
+                            style: const TextStyle(
+                              color: Color(0xFF6E798C),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              height: 1.43,
+                              letterSpacing: 0.25,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        location!.type,
-                        style: const TextStyle(
-                          color: Color(0xFF6E798C),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          height: 1.43,
-                          letterSpacing: 0.25,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Dimension',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            locationController.location!.dimension,
+                            style: const TextStyle(
+                              color: Color(0xFF6E798C),
+                              fontSize: 14,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              height: 1.43,
+                              letterSpacing: 0.25,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Dimension',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        location!.dimension,
-                        style: const TextStyle(
-                          color: Color(0xFF6E798C),
-                          fontSize: 14,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          height: 1.43,
-                          letterSpacing: 0.25,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const TextTitle(text: 'Residents'),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: filteredCharacters.length,
-                itemBuilder: (context, index) {
-                  final character = filteredCharacters[index];
-                  return CharacterTile(
-                    character: character,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CharacterInfo(),
-                          settings: RouteSettings(arguments: character),
+                ),
+                const Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextTitle(text: 'Residents')),
+                ListenableBuilder(
+                  listenable: locationController,
+                  builder: (context, _) {
+                    if (locationController.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.black54),
                         ),
                       );
-                    },
-                  );
-                }),
-          ] else ...[
-            const Padding(
-              padding: EdgeInsets.all(300),
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
-                  //color: Colors.blue,
+                    }
+                    if (locationController.hasError) {
+                      return const Center(child: Icon(Icons.restart_alt));
+                    }
+                    return Column(
+                      children: locationController.filteredCharacters
+                          .map((character) => CharacterTile(
+                                character: character,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CharacterInfo(),
+                                      settings:
+                                          RouteSettings(arguments: character),
+                                    ),
+                                  );
+                                },
+                              ))
+                          .toList(),
+                    );
+                  },
                 ),
-              ),
-            ),
-          ],
+              ],
+            )
         ],
       ),
     );
-  }
-
-  Future<void> requestApiLocation() async {
-    location = await fetchDataLocations(widget.page);
-    setState(() {});
-  }
-
-  Future<void> getResidents() async {
-    for (var id in location!.residents) {
-      listResidents.add(id);
-    }
-  }
-
-  Future<List<CharacterModel>> filtering() async {
-    for (var resident in listResidents) {
-      // filteredCharacters = characters.where((char) => listResidents.contains(char.id)).toList();
-      filteredCharacters =
-          characters.where((char) => char.id == resident).toList();
-    }
-    return filteredCharacters;
-  }
-
-  void requestApiCharacters() async {
-    // characters = await fetchDataCharacters();
-    setState(() {});
   }
 }

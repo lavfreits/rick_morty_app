@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/pages/home/home_controller.dart';
-import '../../data/data_fetch_characters.dart';
-import '../../models/character_model.dart';
 import '../character/character.dart';
 import 'widgets/character_tile.dart';
 
@@ -14,11 +12,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final scrollController = ScrollController();
-  final pageController = HomeController();
+  final homeController = HomeController();
 
   @override
   void initState() {
-    pageController.requestApiCharacters();
+    homeController.requestApiCharacters();
     super.initState();
     scrollController.addListener(scrollListener);
   }
@@ -33,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     if (scrollController.offset >=
         scrollController.position.maxScrollExtent -
             scrollController.position.viewportDimension) {
-     // pageController.requestApiCharacters();
+      homeController.requestApiCharacters();
     }
   }
 
@@ -68,7 +66,6 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding:
             const EdgeInsets.only(left: 24, top: 10, right: 24, bottom: 24),
-            //alterei o padding top p rick e morty n ficar em baixo da appbar
             child: Container(
               height: 104,
               width: 360,
@@ -82,30 +79,29 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListenableBuilder(
-              listenable: pageController,
+              listenable: homeController,
               builder: (_,__) {
                 return ListView.builder(
                   controller: scrollController,
-                  itemCount: pageController.characters.length + (pageController.isLoading ? 1 : 0),
+                  itemCount: homeController.characters.length + (homeController.isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
-                    if (index == pageController.characters.length){
+                    if (index == homeController.characters.length){
                       return const Center(
                         child: Padding(
                           padding: EdgeInsets.all(24.0),
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
-                            //color: Colors.blue,
                           ),
                         ),
                       );
                     }
-                    final character = pageController.characters[index];
+                    final character = homeController.characters[index];
                     return CharacterTile(
                       character: character,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => CharacterInfo(),
+                            builder: (context) => const CharacterInfo(),
                             settings: RouteSettings(arguments: character),
                           ),
                         );

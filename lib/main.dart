@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/pages/character/character.dart';
 import 'package:untitled/pages/home/home_page.dart';
 
 void main() => runApp(const RickMortyApp());
@@ -9,6 +8,6 @@ class RickMortyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomePage(),);
+    return const MaterialApp(home: HomePage(),);
   }
 }
