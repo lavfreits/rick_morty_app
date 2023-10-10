@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding:
-            const EdgeInsets.only(left: 24, top: 10, right: 24, bottom: 24),
+                const EdgeInsets.only(left: 24, top: 10, right: 24, bottom: 24),
             child: Container(
               height: 104,
               width: 360,
@@ -80,34 +80,36 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: ListenableBuilder(
               listenable: homeController,
-              builder: (_,__) {
+              builder: (_, __) {
                 return ListView.builder(
-                  controller: scrollController,
-                  itemCount: homeController.characters.length + (homeController.isLoading ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == homeController.characters.length){
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(24.0),
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
-                          ),
-                        ),
-                      );
-                    }
-                    final character = homeController.characters[index];
-                    return CharacterTile(
-                      character: character,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const CharacterInfo(),
-                            settings: RouteSettings(arguments: character),
+                    controller: scrollController,
+                    itemCount: homeController.characters.length +
+                        (homeController.isLoading ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == homeController.characters.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(24.0),
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.black54),
+                            ),
                           ),
                         );
-                      },
-                    );
-                  });
+                      }
+                      final character = homeController.characters[index];
+                      return CharacterTile(
+                        character: character,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const CharacterInfo(),
+                              settings: RouteSettings(arguments: character),
+                            ),
+                          );
+                        },
+                      );
+                    });
               },
             ),
           ),

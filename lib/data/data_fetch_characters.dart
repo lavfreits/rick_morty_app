@@ -14,7 +14,9 @@ Future<(int,List<CharacterModel>)> fetchDataCharacters(int page) async {
   final pagesCount = jsonData['info']['pages'] as int;
   return (pagesCount, characters);
 }
-Future<List<CharacterModel>> fetchOnlyCharacters({int page, Location location}) async {
+
+Future<List<CharacterModel>> fetchOnlyCharacters(
+    {required int page, required Location location}) async {
   final url = Uri.parse('https://rickandmortyapi.com/api/character?page=$page');
   final response = await http.get(url);
 
