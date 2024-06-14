@@ -1,6 +1,6 @@
 # Rick and Morty App
 
-Este aplicativo Flutter busca e exibe informações de personagens da ![API Rick and Morty](https://rickandmortyapi.com/). O aplicativo suporta rolagem infinita e permite aos usuários visualizar informações detalhadas sobre cada personagem. Me baseei no design desse ![projeto](https://www.figma.com/design/EYnY3t6t7EE6p4neZvK318/Rick-and-Morty-(web-responsive)-(Community)?node-id=20-110&t=mjn6fYv6amsQ5Q0N-0).
+Este aplicativo Flutter busca e exibe informações de personagens da [API Rick and Morty](https://rickandmortyapi.com/). O aplicativo suporta rolagem infinita e permite aos usuários visualizar informações detalhadas sobre cada personagem. Me baseei no design desse [projeto](https://www.figma.com/design/EYnY3t6t7EE6p4neZvK318/Rick-and-Morty-(web-responsive)-(Community)?node-id=20-110&t=mjn6fYv6amsQ5Q0N-0).
 
 ## Tabela de Conteúdos
 
@@ -38,3 +38,4 @@ Após iniciar o aplicativo, você pode:
 O aplicativo busca dados da API Rick and Morty. A seguinte função é usada para interagir com a API:
 
 - fetchDataCharacters(int page): Busca uma lista de personagens da página recebida na chamada da função.
+  
