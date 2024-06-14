@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:untitled/pages/widgets/text_title.dart';
 
 import '../../models/character_model.dart';
-import '../location/location_page.dart';
 import 'character_controller.dart';
 import 'widgets/character_information_tile.dart';
 
@@ -111,15 +110,7 @@ class _CharacterInfoState extends State<CharacterInfo> {
                   CharacterInfoTile(
                       title: 'Location',
                       value: characterPageController.character!.location.name,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => LocationPage(
-                                location: characterPageController
-                                    .character!.location),
-                          ),
-                        );
-                      }),
+                      onTap: () {}),
                 ],
               ),
             ),
