@@ -5,6 +5,7 @@ Este aplicativo Flutter busca e exibe informações de personagens da ![API Rick
 ## Tabela de Conteúdos
 
 1. [Recursos](#recursos)
+2. [Capturas de Tela](#capturas-de-tela)
 2. [Instalação](#instalação)
 3. [Uso](#uso)
 4. [Integração com API](#integração-com-api)
@@ -15,6 +16,11 @@ Este aplicativo Flutter busca e exibe informações de personagens da ![API Rick
 - Rolagem infinita para carregar mais personagens conforme o usuário rola para baixo.
 - Exibe detalhes do personagem, como nome, gênero, status, espécie, origem e localização.
 - Fornece uma visão detalhada de cada personagem quando selecionado.
+
+## Capturas de Tela
+<img src="home.png" alt="Home Page" width="400" height="790">
+<img src="character_page.png" alt="Character Page" width="400" height="790">
+
 
 ## Instalação
 
