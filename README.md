@@ -18,6 +18,7 @@ Este aplicativo Flutter busca e exibe informações de personagens da [API Rick 
 - Fornece uma visão detalhada de cada personagem quando selecionado.
 
 ## Capturas de Tela
+![Rick and Morty App](https://raw.githubusercontent.com/lavfreits/rick_morty_app/master/screen_recording.gif)
 
 
 ## Instalação
